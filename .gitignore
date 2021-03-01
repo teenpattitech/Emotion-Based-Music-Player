@@ -6,3 +6,5 @@
 
 # Virtual Env
 .env
+env/
+env*
