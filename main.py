@@ -1,9 +1,51 @@
 import streamlit as st
 import time
+import numpy as np
+import numpy as np
+import argparse
+import matplotlib.pyplot as plt
+import cv2
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Flatten
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.layers import MaxPooling2D
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import os
+from os import listdir
+from os.path import isfile, join
+import time
+from collections import Counter
 
-st.title("Welcome to Emotion-based music player")
+model = Sequential()
+model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)))
+model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
 
-nav = st.sidebar.radio("Navigation", ["Home", "About EMP", "Play EMP"])
+model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+
+model.add(Flatten())
+model.add(Dense(1024, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(7, activation='softmax'))
+
+model.load_weights('model.h5')
+emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Neutral", 3: "Happy", 4: "Fearful", 5: "Sad", 6: "Surprised"}
+
+@st.cache(allow_output_mutation=True)
+def load_camera() -> cv2.VideoCapture:
+    CAMERA_FLAG = 0
+    camera = cv2.VideoCapture(CAMERA_FLAG)
+    return camera
+
+st.title("Emotify")
+
+nav = st.sidebar.radio("", ["Home", "About Emotify", "Our Team", "Play Emotify"])
 
 if nav == "Home":
     st.markdown("""<br>""", True)
@@ -15,48 +57,21 @@ applying this program, even the very well known apps Spotify, Anghami
 and SoundCloud All of them are simple in the way of offering their
 service, they offer the music itself with some features like pausing,
 stopping, change the song back and front, shuffle, and creating playlists
-manually as per the preference of the user
-              <br />
+manually as per the preference of the user.
+              <br /><br />
               These are what they really
 offer to users, so starting by studying Emotions and the construction of
 these emotions, and developing the algorithm that can help me solve this
 problem is the main focus and the main problem, and as I said before this
 is a really hard and tough problem but in simple way it is already solved
-Starting by design a very simple app that is easy to use, this the first step
-Starting by building the back end of the functionality of the app by
-building a Local Binary Pattern Histogram Neural Network to classify
-the images, to try getting the most out of this algorithm and get accuracy
-rate that can tell that the app has solved the problem And then to design
-a very simple app that is easy to use and friendly These are the main
-points of the problem statement of this project
+Starting by design a very simple app that is easy to use.
               <br />
              """, True)
-    st.markdown("### New Visitor?")
-    if st.button("Register"):
-        first, last = st.beta_columns(2)
-        first.text_input("First Name")
-        last.text_input("Last Name")
-        email, mobile = st.beta_columns([3, 1])
-        email.text_input("Email Id")
-        mobile.text_input("Mobile No")
-        username, pw, rpw = st.beta_columns(3)
-        username.text_input("Username")
-        pw.text_input("Password", type="password")
-        rpw.text_input("Re-enter Password", type="password")
-        check, space, submit = st.beta_columns(3)
-        check.checkbox("I agree to all T&C", value=False)
-        submit.button("Submit")
-
-    st.markdown("### Already a visitor?")
-    if st.button("Login", key="login"):
-        email = st.text_input("Enter Email Id")
-        password = st.text_input("Enter password", type="password")
-        st.button("Login Here", key="entry")
-    st.image("image-emo.jpg")
+    st.image("images/image-emo.jpg")
 
 
-if nav == "About EMP":
-    st.markdown("## EMP - Emotion-based Music Player")
+if nav == "About Emotify":
+    st.markdown("## _Emotify - Emotion-based Music Player_")
     st.markdown("""
       As
 a music lover, I've always felt that music players should do far
@@ -71,22 +86,58 @@ play lists This helps users organize and play songs based on their
 moods The player should also give recommendation for users to
 change songs on the go It calculates song weight based on LBPH to
 help users have more customized and organized play lists""")
-    st.image("image-about-us.jpg")
+    st.image("images/image-about-us.jpg")
 
+if nav == "Our Team":
+    col1, col2, col3 = st.beta_columns(3)
+    col1.markdown("### Warren Fernandes")
+    col1.markdown("_\"Its Time to Roll\"_")
+    col2.markdown("### Liny Mathew")
+    col2.markdown("_\"Its Time to Rock\"_")
+    col3.markdown("### Yash Deshmukh")
+    col3.markdown("_\"Its Time for Shava Shava\"_")
+    st.markdown("""<br>""", True)
+    st.markdown("_\"~Your incharge of how you feel. Don't let anyone kill your vibe. Let your Emotion flow\"_", True)
+    st.markdown("""<br>""", True)
+    st.image("images/team.jpeg")
 
-if nav == "Play EMP":
-    st.markdown("# Hi, I am your _buddy EMP_")
+capture_duration = 10
+start_time = time.time()
+cap = load_camera()
+emo = []
+i=0
+if nav == "Play Emotify":
     st.markdown("## Click here to activate me")
     if(st.button("Activate EMP")):
         progress = st.progress(0)
-        for i in range(100):
-            time.sleep(0.1)
+        while ( int(time.time() - start_time) < capture_duration and i<100):
             progress.progress(i+1)
-        st.balloons()
-        # st.markdown("""<hr>""", True)
-        st.markdown("## Feel the music :sunglasses:")
-        st.image("dynamite-image.jpg")
-        st.audio("Dynamite-song.mp3")
-        st.markdown("""<hr>""", True)
-        st.image("drag-me-down-image.png")
-        st.audio("DragMeDown-song.mp3")
+            i=i+1
+            # Find haar cascade to draw bounding box around face
+            ret, frame = cap.read()
+            if not ret:
+                break
+            facecasc = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = facecasc.detectMultiScale(gray,scaleFactor=1.3, minNeighbors=5)
+
+            for (x, y, w, h) in faces:
+                cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), (255, 0, 0), 2)
+                roi_gray = gray[y:y + h, x:x + w]
+                cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
+                prediction = model.predict(cropped_img)
+                maxindex = int(np.argmax(prediction))
+                emo.append(emotion_dict[maxindex])
+        if not emo:
+            st.markdown("## Face Not Detected. Try Again")
+        else:
+            def most_frequent(List):
+                occurence_count = Counter(List)
+                return occurence_count.most_common(1)[0][0]
+            user_emotion = most_frequent(emo)
+            st.markdown("## You are "+user_emotion)
+            songs = [f for f in listdir("songs/"+user_emotion) if isfile(join("songs/"+user_emotion, f))]
+            for song in songs:
+                st.markdown(song)
+                st.audio("songs/"+user_emotion+"/"+song)
+
