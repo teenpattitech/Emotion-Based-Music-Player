@@ -1,9 +1,6 @@
 import streamlit as st
 import time
 import numpy as np
-import numpy as np
-import argparse
-import matplotlib.pyplot as plt
 import cv2
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Flatten
@@ -43,7 +40,7 @@ def load_camera() -> cv2.VideoCapture:
     camera = cv2.VideoCapture(CAMERA_FLAG)
     return camera
 
-st.title("Emotify")
+st.title("Emotifyo")
 
 nav = st.sidebar.radio("", ["Home", "About Emotify", "Our Team", "Play Emotify"])
 

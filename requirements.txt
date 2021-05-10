@@ -3,6 +3,7 @@ aioice==0.7.5
 aiortc==1.2.0
 altair==4.1.0
 argon2-cffi==20.1.0
+asgiref==3.3.4
 astor==0.8.1
 astunparse==1.6.3
 async-generator==1.10
@@ -23,6 +24,7 @@ cryptography==3.4.7
 cycler==0.10.0
 decorator==4.4.2
 defusedxml==0.7.1
+Django==3.2.2
 dnspython==2.1.0
 entrypoints==0.3
 flatbuffers==1.12
@@ -61,6 +63,7 @@ MarkupSafe==1.1.1
 matplotlib==3.3.4
 mistune==0.8.4
 mysql-connector-python==8.0.24
+mysqlclient==2.0.3
 nbclient==0.5.3
 nbconvert==6.0.7
 nbformat==5.1.2
@@ -96,7 +99,6 @@ pyrsistent==0.17.3
 python-dateutil==2.8.1
 pytz==2021.1
 PyWavelets==1.1.1
-pywin32==300
 pywinpty==0.5.7
 PyYAML==5.4.1
 pyzmq==22.0.3
@@ -113,6 +115,7 @@ seaborn==0.11.1
 Send2Trash==1.5.0
 six==1.15.0
 smmap==3.0.5
+sqlparse==0.4.1
 streamlit==0.79.0
 streamlit-webrtc==0.12.0
 tensorboard==2.5.0
