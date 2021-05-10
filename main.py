@@ -35,7 +35,7 @@ model.load_weights('model.h5')
 emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Neutral", 3: "Happy", 4: "Fearful", 5: "Sad", 6: "Surprised"}
 
 @st.cache(allow_output_mutation=True)
-def load_camera() -> cv2.VideoCapture:
+def load_camera():
     CAMERA_FLAG = 0
     camera = cv2.VideoCapture(CAMERA_FLAG)
     return camera
@@ -107,6 +107,7 @@ if nav == "Play Emotify":
     st.markdown("## Click here to activate me")
     if(st.button("Activate EMP")):
         progress = st.progress(0)
+        camera = cv2.VideoCapture(0)
         while ( int(time.time() - start_time) < capture_duration and i<100):
             progress.progress(i+1)
             i=i+1
