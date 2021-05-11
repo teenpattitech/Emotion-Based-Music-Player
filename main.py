@@ -14,8 +14,13 @@ from os.path import isfile, join
 import time
 from collections import Counter
 from streamlit_webrtc import (
+    ClientSettings,
     WebRtcMode,
     webrtc_streamer,
+)
+WEBRTC_CLIENT_SETTINGS = ClientSettings(
+    rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+    media_stream_constraints={"video": True, "audio": True},
 )
 
 model = Sequential()
@@ -103,7 +108,8 @@ i=0
 if nav == "Play Emotify":
     webrtc_ctx = webrtc_streamer(
             key="opencv-filter",
-            mode=WebRtcMode.SENDONLY
+            mode=WebRtcMode.SENDONLY,
+            client_settings=WEBRTC_CLIENT_SETTINGS,
         )
     st.markdown("## Click here to activate me")
     if(st.button("Activate EMP")):
