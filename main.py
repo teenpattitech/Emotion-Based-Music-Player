@@ -1,5 +1,4 @@
 import streamlit as st
-import time
 import numpy as np
 import cv2
 from tensorflow.keras.models import Sequential
@@ -9,10 +8,15 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import os
+import queue
 from os import listdir
 from os.path import isfile, join
 import time
 from collections import Counter
+from streamlit_webrtc import (
+    WebRtcMode,
+    webrtc_streamer,
+)
 
 model = Sequential()
 model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)))
@@ -33,12 +37,6 @@ model.add(Dense(7, activation='softmax'))
 
 model.load_weights('model.h5')
 emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Neutral", 3: "Happy", 4: "Fearful", 5: "Sad", 6: "Surprised"}
-
-@st.cache(allow_output_mutation=True)
-def load_camera():
-    CAMERA_FLAG = 0
-    camera = cv2.VideoCapture(CAMERA_FLAG)
-    return camera
 
 st.title("Emotifyo")
 
@@ -98,34 +96,38 @@ if nav == "Our Team":
     st.markdown("""<br>""", True)
     st.image("images/team.jpeg")
 
-capture_duration = 10
+capture_duration = 20
 start_time = time.time()
-cap = load_camera()
 emo = []
 i=0
 if nav == "Play Emotify":
+    webrtc_ctx = webrtc_streamer(
+            key="opencv-filter",
+            mode=WebRtcMode.SENDONLY
+        )
     st.markdown("## Click here to activate me")
     if(st.button("Activate EMP")):
         progress = st.progress(0)
-        camera = cv2.VideoCapture(0)
         while ( int(time.time() - start_time) < capture_duration and i<100):
             progress.progress(i+1)
             i=i+1
             # Find haar cascade to draw bounding box around face
-            ret, frame = cap.read()
-            if not ret:
-                break
-            facecasc = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            faces = facecasc.detectMultiScale(gray,scaleFactor=1.3, minNeighbors=5)
+            if webrtc_ctx.video_receiver:
+                try:
+                    video_frame = webrtc_ctx.video_receiver.get_frame(timeout=1)
+                    facecasc = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+                    gray = cv2.cvtColor(video_frame.to_ndarray(format="bgr24"), cv2.COLOR_BGR2GRAY)
+                    faces = facecasc.detectMultiScale(gray,scaleFactor=1.3, minNeighbors=5)
 
-            for (x, y, w, h) in faces:
-                cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), (255, 0, 0), 2)
-                roi_gray = gray[y:y + h, x:x + w]
-                cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
-                prediction = model.predict(cropped_img)
-                maxindex = int(np.argmax(prediction))
-                emo.append(emotion_dict[maxindex])
+                    for (x, y, w, h) in faces:
+                        #cv2.rectangle(video_frame, (x, y-50), (x+w, y+h+10), (255, 0, 0), 2)
+                        roi_gray = gray[y:y + h, x:x + w]
+                        cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
+                        prediction = model.predict(cropped_img)
+                        maxindex = int(np.argmax(prediction))
+                        emo.append(emotion_dict[maxindex])
+                except queue.Empty:
+                    st.markdown("## Try again")
         if not emo:
             st.markdown("## Face Not Detected. Try Again")
         else:
