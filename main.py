@@ -13,16 +13,9 @@ from os import listdir
 from os.path import isfile, join
 import time
 from collections import Counter
-from streamlit_webrtc import VideoProcessorBase
-from streamlit_webrtc import VideoTransformerBase
 from streamlit_webrtc import (
-    ClientSettings,
     WebRtcMode,
     webrtc_streamer,
-)
-WEBRTC_CLIENT_SETTINGS = ClientSettings(
-    rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
-    media_stream_constraints={"video": True, "audio": True},
 )
 capture_duration = 20
 start_time = time.time()
