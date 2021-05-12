@@ -70,7 +70,8 @@ def emotion_find():
                         maxindex = int(np.argmax(prediction))
                         emo.append(emotion_dict[maxindex])
                 except queue.Empty:
-                    st.markdown("Not Queue")
+                    time.sleep(0.1)
+                    continue
         if not emo:
             st.markdown("## Face Not Detected. Try Again")
         else:
