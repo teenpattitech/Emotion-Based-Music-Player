@@ -57,7 +57,7 @@ def emotion_find():
                 # Find haar cascade to draw bounding box around face
             if webrtc_ctx.video_receiver:
                 try:
-                    video_frame = webrtc_ctx.video_receiver.get_frame(timeout=1)
+                    video_frame = webrtc_ctx.video_receiver.get_frame(timeout=10)
                     facecasc = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
                     gray = cv2.cvtColor(video_frame.to_ndarray(format="bgr24"), cv2.COLOR_BGR2GRAY)
                     faces = facecasc.detectMultiScale(gray,scaleFactor=1.3, minNeighbors=5)
