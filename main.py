@@ -7,6 +7,7 @@ from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from keras.models import load_model
 import os
 import queue
 from os import listdir
@@ -20,24 +21,7 @@ from streamlit_webrtc import (
 capture_duration = 20
 start_time = time.time()
 emo = []
-model = Sequential()
-model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)))
-model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-
-model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-
-model.add(Flatten())
-model.add(Dense(1024, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(7, activation='softmax'))
-
-model.load_weights('model.h5')
+model = load_model('model1.h5')
 emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Neutral", 3: "Happy", 4: "Fearful", 5: "Sad", 6: "Surprised"}
 
 def emotion_find():
@@ -84,26 +68,6 @@ def emotion_find():
             for song in songs:
                 st.markdown(song)
                 st.audio("songs/"+user_emotion+"/"+song)
-
-model = Sequential()
-model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)))
-model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-
-model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-
-model.add(Flatten())
-model.add(Dense(1024, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(7, activation='softmax'))
-
-model.load_weights('model.h5')
-emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Neutral", 3: "Happy", 4: "Fearful", 5: "Sad", 6: "Surprised"}
 
 st.title("Emotifyo")
 
@@ -165,40 +129,4 @@ if nav == "Our Team":
 
 if nav == "Play Emotify":
     emotion_find()
-    # st.markdown("## Click here to activate me")
-    # if(st.button("Activate EMP")):
-    #     progress = st.progress(0)
-    #     if webrtc_ctx.state.playing:
-    #         while ( int(time.time() - start_time) < capture_duration and i<100):
-    #             progress.progress(i+1)
-    #             i=i+1
-    #             # Find haar cascade to draw bounding box around face
-    #             if webrtc_ctx.video_receiver:
-    #                 try:
-    #                     video_frame = webrtc_ctx.video_receiver.get_frame(timeout=1)
-    #                     facecasc = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-    #                     gray = cv2.cvtColor(video_frame.to_ndarray(format="bgr24"), cv2.COLOR_BGR2GRAY)
-    #                     faces = facecasc.detectMultiScale(gray,scaleFactor=1.3, minNeighbors=5)
-
-    #                     for (x, y, w, h) in faces:
-    #                         #cv2.rectangle(video_frame, (x, y-50), (x+w, y+h+10), (255, 0, 0), 2)
-    #                         roi_gray = gray[y:y + h, x:x + w]
-    #                         cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
-    #                         prediction = model.predict(cropped_img)
-    #                         maxindex = int(np.argmax(prediction))
-    #                         emo.append(emotion_dict[maxindex])
-    #                 except queue.Empty:
-    #                     emo.append("Face Not Detected")
-    #         if not emo:
-    #             st.markdown("## Face Not Detected. Try Again")
-    #         else:
-    #             def most_frequent(List):
-    #                 occurence_count = Counter(List)
-    #                 return occurence_count.most_common(1)[0][0]
-    #             user_emotion = most_frequent(emo)
-    #             st.markdown("## You are "+user_emotion)
-    #             songs = [f for f in listdir("songs/"+user_emotion) if isfile(join("songs/"+user_emotion, f))]
-    #             for song in songs:
-    #                 st.markdown(song)
-    #                 st.audio("songs/"+user_emotion+"/"+song)
-
+    
