@@ -1,28 +1,21 @@
 # Emotion-Based-Music-Player
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/warrenferns/Emotion-Based-Music-Player">
+  <a href="https://github.com/teenpattitech/Emotion-Based-Music-Player">
   </a>
   <p align="center">
     To classify the songs based on user emotion
     <br />
-    <a href="https://github.com/warrenferns/Emotion-Based-Music-Player"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/teenpattitech/Emotion-Based-Music-Player"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/warrenferns/Emotion-Based-Music-Player">View Demo</a>
+    <a href="https://github.com/teenpattitech/Emotion-Based-Music-Player">View Demo</a>
     ·
-    <a href="https://github.com/warrenferns/Emotion-Based-Music-Player/issues">Report Bug</a>
+    <a href="https://github.com/teenpattitech/Emotion-Based-Music-Player/issues">Report Bug</a>
     ·
-    <a href="https://github.com/warrenferns/Emotion-Based-Music-Player/issues">Request Feature</a>
+    <a href="https://github.com/teenpattitech/Emotion-Based-Music-Player/issues">Request Feature</a>
   </p>
 </p>
 
@@ -57,7 +50,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Screen Shot][product-screenshot]](https://github.com/warrenferns/Emotion-Based-Music-Player)
+[![Screen Shot][product-screenshot]](https://github.com/teenpattitech/Emotion-Based-Music-Player)
 
 Emotion Based Music player is a useful application for music listeners with a smart phone and an Internet connection The application is accessible by anyone who creates a prole on the system.
 
@@ -81,7 +74,7 @@ You need to have Python installed on your PC. If you do not have you can [instal
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/warrenferns/Emotion-Based-Music-Player
+   git clone https://github.com/teenpattitech/Emotion-Based-Music-Player
    ```
 3. Install the Requirements
    ```sh
@@ -117,7 +110,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Warren Fernandes - [@warrenspeaks](https://twitter.com/warrenspeaks) - warren.fernandes27@gmail.com
+Teenpatti Tech - weliveyoungcrce@gmail.com
 
 Project Link: [https://github.com/warrenferns/Emotion-Based-Music-Player](https://github.com/warrenferns/Emotion-Based-Music-Player)
 
@@ -140,18 +133,11 @@ Project Link: [https://github.com/warrenferns/Emotion-Based-Music-Player](https:
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors-anon/warrenferns/Emotion-Based-Music-Player?color=green&style=for-the-badge
-[contributors-url]: https://github.com/warrenferns/Emotion-Based-Music-Player/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/warrenferns/Emotion-Based-Music-Player?style=for-the-badge
-[forks-url]: https://github.com/warrenferns/Emotion-Based-Music-Player/network/members
-[stars-shield]: https://img.shields.io/github/stars/warrenferns/Emotion-Based-Music-Player?style=for-the-badge
-[stars-url]: https://github.com/warrenferns/Emotion-Based-Music-Player/stargazers
-[issues-shield]: https://img.shields.io/github/issues/warrenferns/Emotion-Based-Music-Player?color=yellow&style=for-the-badge
-[issues-url]: https://github.com/warrenferns/Emotion-Based-Music-Player/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/warrenferns/Emotion-Based-Music-Player/blob/master/LICENSE
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/warren-fernandes-a354281a3/
+[contributors-url]: https://github.com/teenpattitech/Emotion-Based-Music-Player/graphs/contributors
+[forks-url]: https://github.com/teenpattitech/Emotion-Based-Music-Player/network/members
+[stars-url]: https://github.com/teenpattitech/Emotion-Based-Music-Player/stargazers
+[issues-url]: https://github.com/teenpattitech/Emotion-Based-Music-Player/issues
+[license-url]: https://github.com/teenpattitech/Emotion-Based-Music-Player/blob/master/LICENSE
 [product-screenshot]: images/app.jpg
 
 
